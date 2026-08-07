@@ -1,0 +1,130 @@
+# =========================
+# Java compiled files
+# =========================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Java logs
+*.log
+hs_err_pid*
+replay_pid*
+
+# =========================
+# Maven
+# =========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+.mvn/timing.properties
+
+# Giữ lại Maven Wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Gradle
+# =========================
+.gradle/
+build/
+out/
+bin/
+
+# Giữ lại Gradle Wrapper
+!gradle/wrapper/gradle-wrapper.jar
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# =========================
+# Eclipse
+# =========================
+.project
+.classpath
+.settings/
+.metadata/
+.loadpath
+.recommenders/
+
+# Eclipse Server / Tomcat
+Servers/
+tmp/
+wtpwebapps/
+.metadata/
+
+# =========================
+# NetBeans
+# =========================
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# =========================
+# Visual Studio Code
+# =========================
+.vscode/
+
+# =========================
+# Apache Tomcat
+# =========================
+work/
+temp/
+logs/
+webapps/
+conf/Catalina/
+catalina.out
+
+# =========================
+# Servlet deployment output
+# =========================
+src/main/webapp/WEB-INF/classes/
+src/main/webapp/WEB-INF/lib/
+
+# =========================
+# Environment and secrets
+# =========================
+.env
+.env.*
+*.env
+application-local.properties
+application-dev.properties
+database.properties
+config.local.properties
+secrets.properties
+
+# Không ignore file mẫu
+!.env.example
+!application-example.properties
+
+# =========================
+# Operating systems
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.cache/
