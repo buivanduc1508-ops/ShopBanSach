@@ -177,6 +177,47 @@ public class InvoiceDao {
 		return 0;
 	}
 
+	/**
+	 * Loc hoa don theo trang thai va/hoac keyword (tim theo ten nguoi nhan hoac SDT).
+	 * Neu status null/empty/"ALL" -> khong loc theo trang thai.
+	 * Neu keyword null/empty -> khong loc theo keyword.
+	 */
+	public List<InvoiceModel> filter(String status, String keyword) {
+		List<InvoiceModel> list = new ArrayList<>();
+		StringBuilder sql = new StringBuilder(
+				"SELECT id, user_id, receiver_name, receiver_phone, receiver_address, note, "
+				+ "total_amount, payment_method, order_status, created_at FROM hoa_don WHERE 1=1");
+		List<Object> params = new ArrayList<>();
+
+		boolean hasStatus = status != null && !status.isEmpty() && !"ALL".equalsIgnoreCase(status);
+		boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+
+		if (hasStatus) {
+			sql.append(" AND order_status = ?");
+			params.add(status);
+		}
+		if (hasKeyword) {
+			sql.append(" AND (receiver_name LIKE ? OR receiver_phone LIKE ?)");
+			String kw = "%" + keyword.trim() + "%";
+			params.add(kw);
+			params.add(kw);
+		}
+		sql.append(" ORDER BY created_at DESC, id DESC");
+
+		try (Connection con = ConnectDB.getConnect();
+			 PreparedStatement pr = con.prepareStatement(sql.toString())) {
+			for (int i = 0; i < params.size(); i++) {
+				pr.setObject(i + 1, params.get(i));
+			}
+			try (ResultSet rs = pr.executeQuery()) {
+				while (rs.next()) list.add(mapRow(rs));
+			}
+		} catch (Exception e) {
+			System.err.println("[InvoiceDao.filter] Loi: " + e.getMessage());
+		}
+		return list;
+	}
+
 	// Chi tiet san pham trong don hang (de admin xem)
 	public List<model.CartItemModel> getItems(int invoiceId) {
 		List<model.CartItemModel> list = new ArrayList<>();

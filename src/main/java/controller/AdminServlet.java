@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import dao.DanhMucDao;
 import dao.InvoiceDao;
@@ -35,7 +36,7 @@ public class AdminServlet extends HttpServlet {
 		if (page == null || page.isEmpty()) page = "dashboard";
 
 		// --- Dashboard stats ---
-		int totalSP = spDao.countAll();
+		int totalSP_all = spDao.countAll();
 		int totalDM = dmDao.getAll().size();
 		int totalHD = invDao.countAll();
 		int hdPending = invDao.countByStatus("PENDING");
@@ -47,7 +48,7 @@ public class AdminServlet extends HttpServlet {
 		int totalUsers = userDao.countAll();
 		int lowStock = spDao.countLowStock(5);
 
-		request.setAttribute("totalSP", totalSP);
+		request.setAttribute("totalSP", totalSP_all);
 		request.setAttribute("totalDM", totalDM);
 		request.setAttribute("totalHD", totalHD);
 		request.setAttribute("hdPending", hdPending);
@@ -72,28 +73,29 @@ public class AdminServlet extends HttpServlet {
 				request.setAttribute("contentPage", "/WEB-INF/views/admin/danhmuc/list.jsp");
 				request.setAttribute("listDM", dmDao.getAll());
 				break;
-			case "sanpham":
+			case "sanpham": {
 				request.setAttribute("pageTitle", "Quan ly san pham");
 				String keyword = request.getParameter("keyword");
 				String catRaw = request.getParameter("categoryId");
 				String pageRaw = request.getParameter("p");
 				Integer categoryId = null;
 				try { if (catRaw != null && !catRaw.isEmpty()) categoryId = Integer.parseInt(catRaw); } catch (Exception ex) {}
-				int page = 1;
-				try { if (pageRaw != null && !pageRaw.isEmpty()) page = Math.max(1, Integer.parseInt(pageRaw)); } catch (Exception ex) {}
+				int currentPage = 1;
+				try { if (pageRaw != null && !pageRaw.isEmpty()) currentPage = Math.max(1, Integer.parseInt(pageRaw)); } catch (Exception ex) {}
 				final int PAGE_SIZE = 15;
-				int totalSP = spDao.countFilter(keyword, categoryId);
-				int totalPages = (int) Math.ceil(totalSP / (double) PAGE_SIZE);
-				if (page > totalPages && totalPages > 0) page = totalPages;
-				request.setAttribute("listSP", spDao.filter(keyword, categoryId, page, PAGE_SIZE));
+				int totalSP_filtered = spDao.countFilter(keyword, categoryId);
+				int totalPages = (int) Math.ceil(totalSP_filtered / (double) PAGE_SIZE);
+				if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+				request.setAttribute("listSP", spDao.filter(keyword, categoryId, currentPage, PAGE_SIZE));
 				request.setAttribute("listDM", dmDao.getAll());
 				request.setAttribute("keyword", keyword);
 				request.setAttribute("filterCatId", categoryId);
-				request.setAttribute("currentPage", page);
+				request.setAttribute("currentPage", currentPage);
 				request.setAttribute("totalPages", totalPages);
 				request.setAttribute("contentPage", "/WEB-INF/views/admin/sanpham/list.jsp");
 				break;
-			case "donhang":
+			}
+			case "donhang": {
 				request.setAttribute("pageTitle", "Quan ly don hang");
 				String status = request.getParameter("status");
 				String keyword = request.getParameter("keyword");
@@ -102,6 +104,7 @@ public class AdminServlet extends HttpServlet {
 				request.setAttribute("listHD", invDao.filter(status, keyword));
 				request.setAttribute("contentPage", "/WEB-INF/views/admin/donhang/list.jsp");
 				break;
+			}
 			case "nguoidung":
 				request.setAttribute("pageTitle", "Quan ly nguoi dung");
 				request.setAttribute("listUsers", userDao.getAll());
