@@ -9,9 +9,9 @@
 <title><c:out value="${empty pageTitle ? 'BookChill' : pageTitle}"/> | BookChill</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/client-assets/css/bookchill.css?v=10">
+<link rel="stylesheet" href="${ctx}/client-assets/css/bookchill.css?v=11">
 <link rel="icon" type="image/svg+xml" href="${ctx}/assets/placeholder-book.jsp?w=32&h=32&bg=b08968&text=BC">
 </head>
 <body>

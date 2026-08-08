@@ -31,13 +31,13 @@
 }
 
 html, body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-family: 'Be Vietnam Pro', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	color: var(--bc-text);
 	background: var(--bc-bg);
 	line-height: 1.6;
 	-webkit-font-smoothing: antialiased;
 	font-size: 14px;
-	font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+	font-family: 'Be Vietnam Pro', 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 a { color: inherit; text-decoration: none; transition: all 0.2s ease; }
@@ -53,7 +53,7 @@ ul { list-style: none; }
 
 /* ===== GLOBAL FONT + SPACING RESET ===== */
 body, input, select, textarea, button {
-	font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif !important;
+	font-family: 'Be Vietnam Pro', 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif !important;
 }
 
 /* Giam letter-spacing mac dinh de de doc hon */
@@ -88,7 +88,7 @@ i.bi, i[class*="bi-"] {
 	line-height: 1.25 !important;
 	letter-spacing: -0.5px !important;
 	word-spacing: normal !important;
-	font-family: 'Inter', sans-serif !important;
+	font-family: 'Be Vietnam Pro', 'Inter', sans-serif !important;
 }
 
 .bc-hero-eyebrow {
@@ -247,7 +247,7 @@ i.bi, i[class*="bi-"] {
 	color: #1a1a1a;
 	margin: 0;
 	line-height: 1.25;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
 	letter-spacing: -0.3px;
 }
 
