@@ -1,50 +1,36 @@
 package model;
-//id INT IDENTITY(1,1) PRIMARY KEY,
-//category_id INT NOT NULL,
-//name NVARCHAR(150) NOT NULL,
-//description NVARCHAR(MAX),
-//price DECIMAL(18,2) NOT NULL,
-//image NVARCHAR(500),
-//quantity INT NOT NULL DEFAULT 0,
-//status NVARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
-//created_at DATETIME2 DEFAULT SYSDATETIME(),
+
 public class SanPhamModel {
 	private int id;
 	private int categoryId;
 	private String name;
 	private String des;
 	private float price;
+	private Float salePrice; // có thể null nếu không giảm giá
+	private String author;
 	private String image;
 	private int quantity;
 	private String status;
 	private String createAt;
-	
+
 	public SanPhamModel() {
 		super();
 	}
 
-	public SanPhamModel(int id, int categoryId, String name, String des, float price, String image, int quantity,
-			String status, String createAt) {
+	public SanPhamModel(int id, int categoryId, String name, String des, float price, Float salePrice, String author,
+			String image, int quantity, String status, String createAt) {
 		super();
 		this.id = id;
 		this.categoryId = categoryId;
 		this.name = name;
 		this.des = des;
 		this.price = price;
+		this.salePrice = salePrice;
+		this.author = author;
 		this.image = image;
 		this.quantity = quantity;
 		this.status = status;
 		this.createAt = createAt;
-	}
-
-	public SanPhamModel(int categoryId, String name, String des, float price, String image, int quantity) {
-		super();
-		this.categoryId = categoryId;
-		this.name = name;
-		this.des = des;
-		this.price = price;
-		this.image = image;
-		this.quantity = quantity;
 	}
 
 	public int getId() {
@@ -87,6 +73,22 @@ public class SanPhamModel {
 		this.price = price;
 	}
 
+	public Float getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(Float salePrice) {
+		this.salePrice = salePrice;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	public String getImage() {
 		return image;
 	}
@@ -118,6 +120,28 @@ public class SanPhamModel {
 	public void setCreateAt(String createAt) {
 		this.createAt = createAt;
 	}
-	
-	
+
+	// Helpers cho UI motbookstore
+	public boolean hasSale() {
+		return salePrice != null && salePrice > 0 && salePrice < price;
+	}
+
+	public int getDiscountPercent() {
+		if (!hasSale()) {
+			return 0;
+		}
+		return (int) Math.round((1 - salePrice / price) * 100);
+	}
+
+	public float getDisplayPrice() {
+		return hasSale() ? salePrice : price;
+	}
+
+	public String getOriginalPriceFormatted() {
+		return String.format("%,.0f", price);
+	}
+
+	public String getDisplayPriceFormatted() {
+		return String.format("%,.0f", getDisplayPrice());
+	}
 }

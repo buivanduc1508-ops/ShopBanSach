@@ -1,60 +1,129 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div id="main">
-	<header class="mb-3">
-		<a href="#" class="burger-btn d-block d-xl-none"> <i
-			class="bi bi-justify fs-3"></i>
-		</a>
-	</header>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-	<div class="page-heading">
-		<div class="page-title">
-			<div class="row">
-				<div class="col-12 col-md-6 order-md-1 order-last">
-					<h3>DataTable</h3>
-					<p class="text-subtitle text-muted">For user to check they list</p>
-				</div>
-				<div class="col-12 col-md-6 order-md-2 order-first">
-					<nav aria-label="breadcrumb"
-						class="breadcrumb-header float-start float-lg-end">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-							<li class="breadcrumb-item active" aria-current="page">DataTable</li>
-						</ol>
-					</nav>
-				</div>
-			</div>
+<div class="page-heading">
+	<h3>Quản lý danh mục</h3>
+	<p class="text-muted">Thêm, sửa, xóa các danh mục sách</p>
+</div>
+
+<div class="page-content" style="padding: 24px 28px;">
+	<div class="adm-table-card">
+		<div class="adm-card-header">
+			<h4>📚 ${listDM.size()} danh mục</h4>
+			<button class="adm-btn adm-btn-success" onclick="openForm()">
+				<i class="bi bi-plus-circle"></i> Thêm danh mục
+			</button>
 		</div>
-		<section class="section">
-			<div class="card">
-				<div class="card-header">Simple Datatable</div>
-				<div class="card-body">
-					<table class="table table-striped" id="table1">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Tên DM</th>
-								<th>Mô tả</th>
-								<th>Trạng thái</th>
-								<th>Ngày tạo</th>
-								<th>Hành động</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="item" items="${listDM}">
-								<tr>
-									<td>${item.getId() }</td>
-									<td>${item.getName() }</td>
-									<td>${item.getDescription() }</td>
-									<td>${item.getStatus() }</td>
-									<td>${item.getCreateAt() }</td>
-									<td>Sửa, xóa</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
 
-		</section>
+		<c:choose>
+			<c:when test="${empty listDM}">
+				<div class="adm-empty">
+					<i class="bi bi-folder" style="font-size:64px;color:#d4a373;"></i>
+					<h3>Chưa có danh mục nào</h3>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<table class="adm-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Tên danh mục</th>
+							<th>Mô tả</th>
+							<th>Trạng thái</th>
+							<th>Ngày tạo</th>
+							<th>Hành động</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="dm" items="${listDM}">
+							<tr>
+								<td><strong>#${dm.getId()}</strong></td>
+								<td><strong>${dm.getName()}</strong></td>
+								<td>${dm.getDescription()}</td>
+								<td>
+									<c:choose>
+										<c:when test="${dm.getStatus() == 'ACTIVE'}">
+											<span class="adm-badge adm-badge-success">Hoạt động</span>
+										</c:when>
+										<c:otherwise>
+											<span class="adm-badge adm-badge-secondary">Ngừng</span>
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td><small>${dm.getCreateAt()}</small></td>
+								<td>
+									<button class="adm-btn adm-btn-light"
+										onclick='openForm(${dm.getId()}, "${dm.getName()}", "${dm.getDescription()}", "${dm.getStatus()}")'>
+										<i class="bi bi-pencil"></i> Sửa
+									</button>
+									<form action="${ctx}/admin/danhmuc" method="post" style="display:inline;"
+										onsubmit="return confirm('Xóa danh mục #${dm.getId()}? Nếu còn sản phẩm sẽ không xóa được.');">
+										<input type="hidden" name="action" value="delete"/>
+										<input type="hidden" name="id" value="${dm.getId()}"/>
+										<button type="submit" class="adm-btn adm-btn-danger"><i class="bi bi-trash"></i> Xóa</button>
+									</form>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:otherwise>
+		</c:choose>
 	</div>
+</div>
+
+<div id="formModal" class="adm-form-modal">
+	<div class="adm-form-box" style="max-width:500px;">
+		<h3 id="formTitle">Thêm danh mục</h3>
+		<form id="dmForm" action="${ctx}/admin/danhmuc" method="post">
+			<input type="hidden" name="action" id="formAction" value="create"/>
+			<input type="hidden" name="id" id="dmId"/>
+
+			<div class="adm-fg">
+				<label>Tên danh mục *</label>
+				<input type="text" name="name" id="dmName" required/>
+			</div>
+			<div class="adm-fg">
+				<label>Mô tả</label>
+				<textarea name="description" id="dmDes"></textarea>
+			</div>
+			<div class="adm-fg">
+				<label>Trạng thái</label>
+				<select name="status" id="dmStatus">
+					<option value="ACTIVE">Hoạt động</option>
+					<option value="INACTIVE">Ngừng</option>
+				</select>
+			</div>
+			<div class="adm-form-actions">
+				<button type="button" class="adm-btn adm-btn-light" onclick="closeForm()">Hủy</button>
+				<button type="submit" class="adm-btn adm-btn-success"><i class="bi bi-check-circle"></i> Lưu</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+function openForm(id, name, des, status) {
+	document.getElementById('formModal').classList.add('adm-show');
+	if (id) {
+		document.getElementById('formTitle').innerText = 'Sửa danh mục #' + id;
+		document.getElementById('formAction').value = 'update';
+		document.getElementById('dmId').value = id;
+		document.getElementById('dmName').value = name || '';
+		document.getElementById('dmDes').value = des || '';
+		document.getElementById('dmStatus').value = status || 'ACTIVE';
+	} else {
+		document.getElementById('formTitle').innerText = 'Thêm danh mục';
+		document.getElementById('formAction').value = 'create';
+		document.getElementById('dmForm').reset();
+		document.getElementById('dmStatus').value = 'ACTIVE';
+	}
+}
+function closeForm() {
+	document.getElementById('formModal').classList.remove('adm-show');
+}
+document.getElementById('formModal').addEventListener('click', function(e) {
+	if (e.target === this) closeForm();
+});
+</script>

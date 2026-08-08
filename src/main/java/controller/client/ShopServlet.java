@@ -1,49 +1,80 @@
 package controller.client;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dao.DanhMucDao;
+import dao.SanPhamDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import model.DanhMucModel;
+import model.SanPhamModel;
 
-import dao.DanhMucDao;
-import dao.SanPhamDao;
-
-/**
- * Servlet implementation class ShopServlet
- */
 @WebServlet("/shop")
 public class ShopServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private SanPhamDao spDao = new SanPhamDao();
-    private DanhMucDao dmDao = new DanhMucDao();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ShopServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private SanPhamDao spDao = new SanPhamDao();
+	private DanhMucDao dmDao = new DanhMucDao();
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		List<SanPhamModel> all = spDao.getAll();
+		List<DanhMucModel> categories = dmDao.getAll();
+
+		String catParam = request.getParameter("category");
+		String sortParam = request.getParameter("sort");
+
+		List<SanPhamModel> filtered = all;
+		Integer activeCat = null;
+
+		if (catParam != null && !catParam.isEmpty()) {
+			try {
+				activeCat = Integer.parseInt(catParam);
+				final int catId = activeCat;
+				filtered = all.stream()
+					.filter(s -> s.getCategoryId() == catId)
+					.collect(Collectors.toList());
+			} catch (NumberFormatException ignored) {}
+		}
+
+		if ("priceAsc".equals(sortParam)) {
+			filtered = filtered.stream()
+				.sorted((a, b) -> Float.compare(a.getDisplayPrice(), b.getDisplayPrice()))
+				.collect(Collectors.toList());
+		} else if ("priceDesc".equals(sortParam)) {
+			filtered = filtered.stream()
+				.sorted((a, b) -> Float.compare(b.getDisplayPrice(), a.getDisplayPrice()))
+				.collect(Collectors.toList());
+		} else if ("name".equals(sortParam)) {
+			filtered = filtered.stream()
+				.sorted((a, b) -> a.getName().compareToIgnoreCase(b.getName()))
+				.collect(Collectors.toList());
+		}
+
+		System.out.println("[ShopServlet] All=" + all.size()
+			+ " | Filtered=" + filtered.size()
+			+ " | Cat=" + activeCat + " | Sort=" + sortParam);
+
+		request.setAttribute("listSP", filtered);
+		request.setAttribute("listDM", categories);
+		request.setAttribute("activeCat", activeCat);
+		request.setAttribute("sort", sortParam);
+		request.setAttribute("pageTitle", "Tat ca san pham - BookChill");
+		request.setAttribute("activePage", "shop");
 		request.setAttribute("contentPage", "/WEB-INF/views/client/pages/shop.jsp");
-		request.setAttribute("listSP", spDao.getAll());
-		request.setAttribute("listDM", dmDao.getAll());
-        request.getRequestDispatcher("/WEB-INF/views/client/layout/layout.jsp")
-                .forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/client/layout/layout.jsp")
+			.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

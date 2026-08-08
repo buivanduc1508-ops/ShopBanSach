@@ -1,10 +1,10 @@
 /*  ---------------------------------------------------
-    Template Name: Ogani
-    Description:  Ogani eCommerce  HTML Template
-    Author: Colorlib
-    Author URI: https://colorlib.com
+    Stylesheet: BookChill
+    Description: BookChill main JS
+    Author: BookChill Team
+    Author URI: https://bookchill.local
     Version: 1.0
-    Created: Colorlib
+    Created: BookChill
 ---------------------------------------------------------  */
 
 'use strict';

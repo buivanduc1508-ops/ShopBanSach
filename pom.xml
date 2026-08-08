@@ -10,14 +10,16 @@
     <packaging>war</packaging>
 
     <name>ShopBanSach</name>
-    <description>Book Store Web Application</description>
+    <description>Book Store Web Application - BookChill</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <jakarta.servlet.api.version>6.0.0</jakarta.servlet.api.version>
-        <jstl.version>3.0.0</jstl.version>
+        <jstl.api.version>3.0.0</jstl.api.version>
+        <jstl.impl.version>3.0.1</jstl.impl.version>
+        <sqlserver.jdbc.version>12.4.2.jre11</sqlserver.jdbc.version>
     </properties>
 
     <dependencies>
@@ -29,24 +31,32 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- JSTL -->
+        <!-- JSTL API -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>${jstl.version}</version>
+            <version>${jstl.api.version}</version>
         </dependency>
-        
+
+        <!-- JSTL Implementation -->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>3.0.1</version>
+            <version>${jstl.impl.version}</version>
         </dependency>
 
-        <!-- JDBC Driver (MySQL) -->
+        <!-- Microsoft SQL Server JDBC Driver -->
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>8.2.0</version>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${sqlserver.jdbc.version}</version>
+        </dependency>
+
+        <!-- JSON parsing (cho Google Books API) -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
         </dependency>
     </dependencies>
 
