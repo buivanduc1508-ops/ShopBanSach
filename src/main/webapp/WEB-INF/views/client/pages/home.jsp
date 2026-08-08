@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="bc-hero-art">
-				<img src="${ctx}/assets/img/hero-books.png" alt="Đọc sách chill"
+				<img src="${ctx}/assets/img/hero-books.png.png" alt="Đọc sách chill"
 					class="bc-hero-art-img"
 					onerror="this.onerror=null;this.style.display='none';">
 			</div>

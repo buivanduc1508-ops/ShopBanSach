@@ -6,6 +6,12 @@
 
     <display-name>BookChill - Shop Ban Sach</display-name>
 
+    <!-- Force Tomcat to recompile JSPs when they change -->
+    <context-param>
+        <param-name>org.apache.jasper.servlet.JspServlet.MODIFICATION_TEST_INTERVAL</param-name>
+        <param-value>0</param-value>
+    </context-param>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
         <welcome-file>index.html</welcome-file>
