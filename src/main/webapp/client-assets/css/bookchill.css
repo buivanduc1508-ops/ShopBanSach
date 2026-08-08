@@ -782,6 +782,8 @@ i.bi, i[class*="bi-"] {
 	color: #fff;
 	font-size: 80px;
 	box-shadow: var(--bc-shadow-hover);
+	object-fit: cover;
+	object-position: center;
 }
 
 /* ===== SECTION ===== */

@@ -22,7 +22,9 @@
 				</div>
 			</div>
 			<div class="bc-hero-art">
-				<div class="bc-hero-art-img"><i class="bi bi-book" style="font-size:140px;color:#fff;"></i></div>
+				<img src="${ctx}/assets/img/hero-books.png" alt="Đọc sách chill"
+					class="bc-hero-art-img"
+					onerror="this.onerror=null;this.style.display='none';">
 			</div>
 		</div>
 	</div>
