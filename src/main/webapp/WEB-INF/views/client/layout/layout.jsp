@@ -29,7 +29,10 @@
 							<span class="bc-badge-admin">Admin</span>
 						</c:if>
 					</span>
-					<a href="${ctx}/admin" class="bc-topbar-link">⚙️ Quản trị</a>
+					<a href="${ctx}/my-orders" class="bc-topbar-link">📦 Đơn hàng</a>
+					<c:if test="${sessionScope.role == 'ADMIN'}">
+						<a href="${ctx}/admin" class="bc-topbar-link">⚙️ Quản trị</a>
+					</c:if>
 					<a href="${ctx}/logout" class="bc-topbar-link">🚪 Đăng xuất</a>
 				</c:when>
 				<c:otherwise>

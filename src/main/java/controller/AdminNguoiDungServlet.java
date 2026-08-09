@@ -18,6 +18,12 @@ public class AdminNguoiDungServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao dao = new UserDao();
 
+	/**
+	 * Email cua admin toi cao - khong the doi vai tro, khong the khoa.
+	 * Admin goc cua he thong, bao ve khoi cac tac dong admin khac.
+	 */
+	private static final String SUPER_ADMIN_EMAIL = "buivanduc1508@gmail.com";
+
 	private boolean requireAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession(false);
 		Object role = session == null ? null : session.getAttribute("role");
@@ -34,6 +40,15 @@ public class AdminNguoiDungServlet extends HttpServlet {
 
 		String action = req.getParameter("action");
 		int id = Integer.parseInt(req.getParameter("id"));
+
+		// BAO VE super admin: chan moi thao tac doi vai tro / khoa tai khoan
+		model.UserModel target = dao.findById(id);
+		if (target != null && SUPER_ADMIN_EMAIL.equalsIgnoreCase(target.getEmail())) {
+			req.getSession().setAttribute("flashError",
+				"Khong the thao tac tren tai khoan admin toi cao (" + SUPER_ADMIN_EMAIL + ").");
+			resp.sendRedirect(req.getContextPath() + "/admin?page=nguoidung");
+			return;
+		}
 
 		if ("updateStatus".equals(action)) {
 			dao.updateStatus(id, req.getParameter("status"));

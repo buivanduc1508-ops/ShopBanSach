@@ -44,10 +44,8 @@ input{font-family:inherit}
 
 .bc-input-group{margin-bottom:12px}
 .bc-input-group label{display:block;font-size:11px;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;color:var(--text)}
-.bc-input-icon{position:relative}
-.bc-input-icon .bc-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:16px}
-.bc-input-icon input{width:100%;padding:11px 16px 11px 40px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:#fff;transition:border-color .2s}
-.bc-input-icon input:focus{outline:none;border-color:var(--accent)}
+.bc-input-noicon input{width:100%;padding:11px 16px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:#fff;transition:border-color .2s}
+.bc-input-noicon input:focus{outline:none;border-color:var(--accent)}
 .bc-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 .bc-auth-btn{width:100%;background:var(--text);color:#fff;padding:13px;border-radius:var(--radius);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;margin-top:8px;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s}
@@ -90,7 +88,7 @@ input{font-family:inherit}
 		<aside class="bc-auth-side">
 			<div>
 				<a href="${ctx}/home" class="bc-auth-logo">
-					<span class="bc-mark">📚</span>
+					<span class="bc-mark">BookChill</span>
 					<span>BookChill</span>
 				</a>
 			</div>
@@ -98,20 +96,20 @@ input{font-family:inherit}
 				<h2>Khám phá<br>thế giới sách</h2>
 				<p>Hàng trăm đầu sách hay từ Mot Bookstore. Đăng nhập để trải nghiệm đầy đủ tính năng:</p>
 				<ul>
-					<li><span class="bc-icon">📚</span> Mua sách nhanh chóng</li>
-					<li><span class="bc-icon">🎁</span> Ưu đãi thành viên</li>
-					<li><span class="bc-icon">🚚</span> Theo dõi đơn hàng</li>
-					<li><span class="bc-icon">💾</span> Lưu giỏ hàng</li>
+					<li><span class="bc-icon">Mua sách nhanh chóng</span></li>
+					<li><span class="bc-icon">Ưu đãi thành viên</span></li>
+					<li><span class="bc-icon">Theo dõi đơn hàng</span></li>
+					<li><span class="bc-icon">Lưu giỏ hàng</span></li>
 				</ul>
 			</div>
-			<div class="bc-auth-side-bottom">© 2026 BookChill. Made with 📚</div>
+			<div class="bc-auth-side-bottom">© 2026 BookChill. Made with BookChill</div>
 		</aside>
 
 		<!-- RIGHT SIDE: Login / Register form -->
 		<main class="bc-auth-main">
 			<div class="bc-auth-tabs">
-				<a href="${ctx}/login" class="bc-auth-tab ${activeTab == 'login' ? 'active' : ''}">🔑 Đăng nhập</a>
-				<a href="${ctx}/register" class="bc-auth-tab ${activeTab == 'register' ? 'active' : ''}">✨ Đăng ký</a>
+				<a href="${ctx}/login" class="bc-auth-tab ${activeTab == 'login' ? 'active' : ''}">Đăng nhập</a>
+				<a href="${ctx}/register" class="bc-auth-tab ${activeTab == 'register' ? 'active' : ''}">Đăng ký</a>
 			</div>
 
 			<c:if test="${activeTab == 'login'}">
@@ -119,36 +117,34 @@ input{font-family:inherit}
 				<p class="bc-auth-main-sub">Đăng nhập để tiếp tục hành trình đọc sách.</p>
 
 				<c:if test="${not empty error}">
-					<div class="bc-auth-alert">⚠️ ${error}</div>
+					<div class="bc-auth-alert">${error}</div>
 				</c:if>
 
 				<form action="${ctx}/login" method="post">
 					<div class="bc-input-group">
 						<label>Email</label>
-						<div class="bc-input-icon">
-							<span class="bc-icon">✉️</span>
+						<div class="bc-input-noicon">
 							<input type="email" name="email" placeholder="email@example.com" required value="${not empty param.email ? param.email : ''}">
 						</div>
 					</div>
 					<div class="bc-input-group">
 						<label>Mật khẩu</label>
-						<div class="bc-input-icon">
-							<span class="bc-icon">🔒</span>
+						<div class="bc-input-noicon">
 							<input type="password" name="password" placeholder="••••••" required>
 						</div>
 					</div>
-					<button type="submit" class="bc-auth-btn">🔑 Đăng nhập ngay</button>
+					<button type="submit" class="bc-auth-btn">Đăng nhập ngay</button>
 				</form>
 
 				<div class="bc-divider"><span>Hoặc đăng nhập nhanh</span></div>
 
 				<div class="bc-demo-form">
 					<button type="button" class="bc-demo-btn bc-demo-admin" onclick="fillForm('buivanduc1508@gmail.com','123654')">
-						<span>👤 <span class="bc-email">buivanduc1508@gmail.com</span></span>
+						<span><span class="bc-email">buivanduc1508@gmail.com</span></span>
 						<span class="bc-tag">ADMIN</span>
 					</button>
 					<button type="button" class="bc-demo-btn" onclick="fillForm('xuanatien@gmail.com','123456')">
-						<span>👥 <span class="bc-email">xuanatien@gmail.com</span></span>
+						<span><span class="bc-email">xuanatien@gmail.com</span></span>
 						<span class="bc-tag">USER</span>
 					</button>
 				</div>
@@ -159,59 +155,54 @@ input{font-family:inherit}
 				<p class="bc-auth-main-sub">Điền thông tin để trở thành thành viên BookChill.</p>
 
 				<c:if test="${not empty error}">
-					<div class="bc-auth-alert">⚠️ ${error}</div>
+					<div class="bc-auth-alert">${error}</div>
 				</c:if>
 				<c:if test="${not empty success}">
-					<div class="bc-auth-success">✓ ${success}</div>
+					<div class="bc-auth-success">${success}</div>
 				</c:if>
 
 				<form action="${ctx}/register" method="post">
 					<div class="bc-form-row">
 						<div class="bc-input-group">
 							<label>Họ và tên</label>
-							<div class="bc-input-icon">
-								<span class="bc-icon">👤</span>
+							<div class="bc-input-noicon">
 								<input type="text" name="fullName" placeholder="Nguyễn Văn A" required value="${not empty param.fullName ? param.fullName : ''}">
 							</div>
 						</div>
 						<div class="bc-input-group">
 							<label>Số điện thoại</label>
-							<div class="bc-input-icon">
-								<span class="bc-icon">📞</span>
+							<div class="bc-input-noicon">
 								<input type="text" name="phone" placeholder="0901234567" value="${not empty param.phone ? param.phone : ''}">
 							</div>
 						</div>
 					</div>
 					<div class="bc-input-group">
 						<label>Email</label>
-						<div class="bc-input-icon">
-							<span class="bc-icon">✉️</span>
+						<div class="bc-input-noicon">
 							<input type="email" name="email" placeholder="email@example.com" required value="${not empty param.email ? param.email : ''}">
 						</div>
 					</div>
 					<div class="bc-input-group">
 						<label>Mật khẩu</label>
-						<div class="bc-input-icon">
-							<span class="bc-icon">🔒</span>
+						<div class="bc-input-noicon">
 							<input type="password" name="password" placeholder="Ít nhất 6 ký tự" required>
 						</div>
 					</div>
 					<div class="bc-input-group">
 						<label>Địa chỉ</label>
-						<div class="bc-input-icon">
-							<span class="bc-icon">📍</span>
+						<div class="bc-input-noicon">
 							<input type="text" name="address" placeholder="Số nhà, đường, quận/huyện..." value="${not empty param.address ? param.address : ''}">
 						</div>
 					</div>
-					<button type="submit" class="bc-auth-btn bc-auth-btn-accent">✨ Đăng ký tài khoản</button>
+					<button type="submit" class="bc-auth-btn bc-auth-btn-accent">Đăng ký tài khoản</button>
 				</form>
 
 				<div class="bc-divider"><span>Đã có tài khoản?</span></div>
-				<a href="${ctx}/login" class="bc-auth-btn" style="display:block;text-align:center;text-decoration:none;background:transparent;color:var(--text);border:1px solid var(--border);">← Đăng nhập ngay</a>
+				<a href="${ctx}/login" class="bc-auth-btn" style="display:block;text-align:center;text-decoration:none;background:transparent;color:var(--text);border:1px solid var(--border);">Đăng nhập ngay</a>
 			</c:if>
 
 			<div class="bc-back-home">
-				<a href="${ctx}/home">← Quay lại trang chủ</a>
+				<a href="${ctx}/home">Quay lại trang chủ</a>
 			</div>
 		</main>
 	</div>

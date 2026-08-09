@@ -218,6 +218,27 @@ public class InvoiceDao {
 		return list;
 	}
 
+	/**
+	 * Lay tat ca hoa don cua mot user (trang "Don hang cua toi").
+	 * Sap xem moi nhat truoc.
+	 */
+	public List<InvoiceModel> findByUserId(int userId) {
+		List<InvoiceModel> list = new ArrayList<>();
+		String sql = "SELECT id, user_id, receiver_name, receiver_phone, receiver_address, note, "
+				+ "total_amount, payment_method, order_status, created_at FROM hoa_don "
+				+ "WHERE user_id = ? ORDER BY created_at DESC, id DESC";
+		try (Connection con = ConnectDB.getConnect();
+			 PreparedStatement pr = con.prepareStatement(sql)) {
+			pr.setInt(1, userId);
+			try (ResultSet rs = pr.executeQuery()) {
+				while (rs.next()) list.add(mapRow(rs));
+			}
+		} catch (Exception e) {
+			System.err.println("[InvoiceDao.findByUserId] Loi: " + e.getMessage());
+		}
+		return list;
+	}
+
 	// Chi tiet san pham trong don hang (de admin xem)
 	public List<model.CartItemModel> getItems(int invoiceId) {
 		List<model.CartItemModel> list = new ArrayList<>();
