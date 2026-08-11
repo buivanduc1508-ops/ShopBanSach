@@ -143,27 +143,50 @@
 				<!-- PHAN TRANG -->
 				<c:if test="${totalPages > 1}">
 					<div style="padding:18px;display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap;border-top:1px solid #e8e8e8;background:#fafafa;">
-						<c:url var="basePageUrl" value="${ctx}/admin">
+						<c:url var="prevUrl" value="admin">
 							<c:param name="page" value="sanpham"/>
 							<c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}"/></c:if>
 							<c:if test="${not empty filterCatId}"><c:param name="categoryId" value="${filterCatId}"/></c:if>
+							<c:param name="p" value="${currentPage - 1}"/>
 						</c:url>
-						<c:if test="${currentPage > 1}">
-							<a class="adm-btn adm-btn-light" href="${basePageUrl}&p=${currentPage - 1}"><i class="bi bi-chevron-left"></i></a>
-						</c:if>
+						<c:url var="nextUrl" value="admin">
+							<c:param name="page" value="sanpham"/>
+							<c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}"/></c:if>
+							<c:if test="${not empty filterCatId}"><c:param name="categoryId" value="${filterCatId}"/></c:if>
+							<c:param name="p" value="${currentPage + 1}"/>
+						</c:url>
+						<c:choose>
+							<c:when test="${currentPage > 1}">
+								<a class="adm-btn adm-btn-light" href="${prevUrl}"><i class="bi bi-chevron-left"></i></a>
+							</c:when>
+							<c:otherwise>
+								<span class="adm-btn adm-btn-light" style="opacity:.4;pointer-events:none;"><i class="bi bi-chevron-left"></i></span>
+							</c:otherwise>
+						</c:choose>
 						<c:forEach var="p" begin="1" end="${totalPages}">
+							<c:url var="pageUrl" value="admin">
+								<c:param name="page" value="sanpham"/>
+								<c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}"/></c:if>
+								<c:if test="${not empty filterCatId}"><c:param name="categoryId" value="${filterCatId}"/></c:if>
+								<c:param name="p" value="${p}"/>
+							</c:url>
 							<c:choose>
 								<c:when test="${p == currentPage}">
 									<span class="adm-btn adm-btn-primary" style="min-width:36px;">${p}</span>
 								</c:when>
 								<c:otherwise>
-									<a class="adm-btn adm-btn-light" href="${basePageUrl}&p=${p}" style="min-width:36px;">${p}</a>
+									<a class="adm-btn adm-btn-light" href="${pageUrl}" style="min-width:36px;">${p}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:if test="${currentPage < totalPages}">
-							<a class="adm-btn adm-btn-light" href="${basePageUrl}&p=${currentPage + 1}"><i class="bi bi-chevron-right"></i></a>
-						</c:if>
+						<c:choose>
+							<c:when test="${currentPage < totalPages}">
+								<a class="adm-btn adm-btn-light" href="${nextUrl}"><i class="bi bi-chevron-right"></i></a>
+							</c:when>
+							<c:otherwise>
+								<span class="adm-btn adm-btn-light" style="opacity:.4;pointer-events:none;"><i class="bi bi-chevron-right"></i></span>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</c:if>
 			</c:otherwise>
